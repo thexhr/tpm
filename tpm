@@ -87,11 +87,11 @@ insert() {
   local _entry_path="${STORE_DIR}/${_entry_name}.gpg"
 
   if [ -z "${_entry_name}" ]; then
-    abort "USAGE: tpm insert ENTRY"
+    abort "insert needs an argument"
   fi
 
   if [ -e "${_entry_path}" ]; then
-    abort "This entry already exists, please remove it first."
+    abort "This entry already exists"
   fi
 
   password=""
