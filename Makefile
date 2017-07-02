@@ -13,17 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-VERSION = 1.3.2
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
-MANDIR ?= $(PREFIX)/share/man
+MANDIR ?= $(PREFIX)/man
 
-all: tpm.1
-tpm.1: README.pod
-	pod2man --section=1 --center="tpm Manual" --name="tpm" \
-		--release="tpm $(VERSION)" $< $@
-
-install: tpm.1
+install:
 	install -Dm755 tpm "$(DESTDIR)$(BINDIR)/tpm"
 	install -Dm644 tpm.1 "$(DESTDIR)$(MANDIR)/man1/tpm.1"
 
@@ -34,4 +28,4 @@ uninstall:
 clean:
 	$(RM) tpm.1
 
-.PHONY: all install uninstall clean
+.PHONY: install uninstall clean
