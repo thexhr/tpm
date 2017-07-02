@@ -22,7 +22,7 @@ umask 077
 ##
 
 GPG_OPTS="--quiet --yes"
-STORE_DIR="${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
+STORE_DIR="${HOME}/.password-store"
 
 if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
   read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
