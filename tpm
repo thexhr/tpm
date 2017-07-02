@@ -70,32 +70,32 @@ entry_exists() {
 ##
 
 show() {
-  local entry_name="${1}"
-  local entry_path="${STORE_DIR}/${entry_name}.gpg"
+  local _entry_name="${1}"
+  local _entry_path="${STORE_DIR}/${_entry_name}.gpg"
 
-  if [ -z "${entry_name}" ]; then
-    abort "USAGE: tpm show ENTRY"
+  if [ -z "${_entry_name}" ]; then
+    abort "show needs an argument"
   fi
 
-  entry_exists ${entry_name}
+  entry_exists ${_entry_name}
 
-  mygpg --decrypt "${entry_path}"
+  mygpg --decrypt "${_entry_path}"
 }
 
 insert() {
-  local entry_name="${1}"
-  local entry_path="${STORE_DIR}/${entry_name}.gpg"
+  local _entry_name="${1}"
+  local _entry_path="${STORE_DIR}/${_entry_name}.gpg"
 
-  if [ -z "${entry_name}" ]; then
+  if [ -z "${_entry_name}" ]; then
     abort "USAGE: tpm insert ENTRY"
   fi
 
-  if [ -e "${entry_path}" ]; then
+  if [ -e "${_entry_path}" ]; then
     abort "This entry already exists, please remove it first."
   fi
 
   password=""
-  readpw "Password for '${entry_name}': " password
+  readpw "Password for '${_entry_name}': " password
   if [ -t 0 ]; then
     printf "\n"
   fi
@@ -104,9 +104,9 @@ insert() {
     abort "You didn't specify a password."
   fi
 
-  mkdir -p "${entry_path%/*}"
+  mkdir -p "${_entry_path%/*}"
   printf '%s\n' "${password}" | mygpg --encrypt \
-    --output "${entry_path}"
+    --output "${_entry_path}"
 }
 
 show_all() {
@@ -118,13 +118,13 @@ remove_entry() {
 
 	[[ -z ${_entry_name} ]] && abort "rm needs an argument"
 
+	entry_exists ${_entry_name}
+
 	if [[ -e "${STORE_DIR}/${_entry_name}.gpg" ]]; then
 		echo "I will remove ${_entry_name} from your password store!"
 		echo "Press any key to continue or CRTL+C to abort"
 		read
 		rm "${STORE_DIR}/${_entry_name}.gpg"
-	else
-		abort "Entry does not exist"
 	fi
 }
 
