@@ -1,0 +1,14 @@
+# Add this to your .kshrc
+# tested with OpenBSD's ksh
+
+if [ -d ~/.password-store ]; then
+	PASS_LIST=$(
+		cd ~/.password-store
+		find . -type f -name \*.gpg | sed 's/^\.\///' | sed 's/\.gpg$//g'
+	)
+
+	set -A complete_tpm -- $PASS_LIST -c generate edit insert git
+	set -A complete_tpm_2 -- $PASS_LIST push
+
+fi
+
