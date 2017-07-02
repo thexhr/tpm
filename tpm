@@ -56,6 +56,15 @@ readpw() {
   [ -t 0 ] && stty echo
 }
 
+entry_exists() {
+	local _entry_name="${1}"
+	local _entry_path="${STORE_DIR}/${_entry_name}.gpg"
+
+	if [ ! -e "${_entry_path}" ]; then
+		abort "The requested entry doesn't exist."
+	fi
+}
+
 ##
 # Commands
 ##
@@ -68,9 +77,7 @@ show() {
     abort "USAGE: tpm show ENTRY"
   fi
 
-  if [ ! -e "${entry_path}" ]; then
-    abort "The requested entry doesn't exist."
-  fi
+  entry_exists ${entry_name}
 
   mygpg --decrypt "${entry_path}"
 }
@@ -130,6 +137,27 @@ find_entry() {
 	echo
 }
 
+edit_entry() {
+	local _entry_name="${1}" _tmpfile
+
+	[[ -z ${_entry_name} ]] && abort "edit needs an argument"
+
+	entry_exists ${_entry_name}
+
+	_tmpfile=$(mktemp /tmp/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
+	trap "rm -f ${_tmpfile}; exit" 0 1 2 3 15
+
+	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
+
+	if [[ -n ${EDITOR} ]]; then
+		${EDITOR} ${_tmpfile} || exit 1
+	else
+		vi ${_tmpfile} || exit 1
+	fi
+
+	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile}
+}
+
 ##
 # Parse input
 ##
@@ -148,6 +176,7 @@ case "${1}" in
   "insert") insert "${2}" ;;
   "find")	find_entry "${2}" ;;
   "rm")		remove_entry "${2}" ;;
+  "edit")	edit_entry "${2}" ;;
   *)   		show   "${1}" ;;
 esac
 
