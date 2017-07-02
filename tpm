@@ -103,7 +103,7 @@ insert() {
 }
 
 show_all() {
-	colortree -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
+	colortree -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
 }
 
 remove_entry() {
@@ -125,7 +125,8 @@ find_entry() {
 	local _entry_name="${1}"
 
 	[[ -z ${_entry_name} ]] && abort "find needs an argument"
-	colortree -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune --matchdirs
+	colortree -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
+		--matchdirs --ignore-case
 	echo
 }
 
