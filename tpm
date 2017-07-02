@@ -120,12 +120,7 @@ remove_entry() {
 
 	entry_exists ${_entry_name}
 
-	if [[ -e "${STORE_DIR}/${_entry_name}.gpg" ]]; then
-		echo "I will remove ${_entry_name} from your password store!"
-		echo "Press any key to continue or CRTL+C to abort"
-		read
-		rm "${STORE_DIR}/${_entry_name}.gpg"
-	fi
+	command rm -i "${STORE_DIR}/${_entry_name}.gpg"
 }
 
 find_entry() {
