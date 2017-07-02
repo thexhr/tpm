@@ -104,7 +104,7 @@ insert() {
     abort "You didn't specify a password."
   fi
 
-  mkdir -p "${_entry_path%/*}"
+  mkdir -p "${_entry_path%/*}" || exit 1
   printf '%s\n' "${password}" | mygpg --encrypt \
     --output "${_entry_path}"
 }
@@ -175,4 +175,4 @@ case "${1}" in
   *)   		show   "${1}" ;;
 esac
 
-# vim: et:sw=4:sts=4
+exit $?
