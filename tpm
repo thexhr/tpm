@@ -1,5 +1,6 @@
 #!/bin/sh
 # Copyright (C) 2013-2016 Sören Tempel
+# Copyright (C) 2017 Matthias Schmidt
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@ umask 077
 # Variables
 ##
 
-GPG_OPTS="--quiet --yes --batch"
+GPG_OPTS="--quiet --yes"
 STORE_DIR="${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
 
 if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
@@ -32,15 +33,16 @@ fi
 ##
 
 abort() {
-  echo "${1}" 1>&2
+  echo "${0}: ${1}" 1>&2
   exit 1
 }
 
-gpg() {
+mygpg() {
+
   if [ -n "${PASSWORD_STORE_KEY}" ]; then
-    gpg2 $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
+    gpg $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
   else
-    gpg2 $GPG_OPTS --default-recipient-self "$@"
+    gpg $GPG_OPTS --default-recipient-self "$@"
   fi
 }
 
@@ -59,8 +61,8 @@ readpw() {
 ##
 
 show() {
-  entry_name="${1}"
-  entry_path="${STORE_DIR}/${entry_name}.gpg"
+  local entry_name="${1}"
+  local entry_path="${STORE_DIR}/${entry_name}.gpg"
 
   if [ -z "${entry_name}" ]; then
     abort "USAGE: tpm show ENTRY"
@@ -70,12 +72,12 @@ show() {
     abort "The requested entry doesn't exist."
   fi
 
-  gpg --decrypt "${entry_path}"
+  mygpg --decrypt "${entry_path}"
 }
 
 insert() {
-  entry_name="${1}"
-  entry_path="${STORE_DIR}/${entry_name}.gpg"
+  local entry_name="${1}"
+  local entry_path="${STORE_DIR}/${entry_name}.gpg"
 
   if [ -z "${entry_name}" ]; then
     abort "USAGE: tpm insert ENTRY"
@@ -96,22 +98,56 @@ insert() {
   fi
 
   mkdir -p "${entry_path%/*}"
-  printf '%s\n' "${password}" | gpg --encrypt \
+  printf '%s\n' "${password}" | mygpg --encrypt \
     --output "${entry_path}"
+}
+
+show_all() {
+	colortree -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
+}
+
+remove_entry() {
+	local _entry_name="${1}"
+
+	[[ -z ${_entry_name} ]] && abort "rm needs an argument"
+
+	if [[ -e "${STORE_DIR}/${_entry_name}.gpg" ]]; then
+		echo "I will remove ${_entry_name} from your password store!"
+		echo "Press any key to continue or CRTL+C to abort"
+		read
+		rm "${STORE_DIR}/${_entry_name}.gpg"
+	else
+		abort "Entry does not exist"
+	fi
+}
+
+find_entry() {
+	local _entry_name="${1}"
+
+	[[ -z ${_entry_name} ]] && abort "find needs an argument"
+	colortree -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune --matchdirs
+	echo
 }
 
 ##
 # Parse input
 ##
 
-if [ $# -gt 2 ]; then
+if [ $# -eq 0 ]; then
+	show_all
+	exit 0
+elif [ $# -gt 2 ]; then
   abort "tpm doesn't accept more than two arguments."
 fi
+
+[[ -d "${STORE_DIR}" ]] || abort "Password directory not-existent."
 
 case "${1}" in
   "show")   show   "${2}" ;;
   "insert") insert "${2}" ;;
-  *) abort "USAGE: tpm COMMAND ENTRY" ;;
+  "find")	find_entry "${2}" ;;
+  "rm")		remove_entry "${2}" ;;
+  *)   		show   "${1}" ;;
 esac
 
-# vim: et:sw=2:sts=2
+# vim: et:sw=4:sts=4
