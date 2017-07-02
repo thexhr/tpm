@@ -157,14 +157,14 @@ edit_entry() {
 # Parse input
 ##
 
+[[ -d "${STORE_DIR}" ]] || abort "Password directory does not exist."
+
 if [ $# -eq 0 ]; then
 	show_all
 	exit 0
 elif [ $# -gt 2 ]; then
   abort "tpm doesn't accept more than two arguments."
 fi
-
-[[ -d "${STORE_DIR}" ]] || abort "Password directory not-existent."
 
 case "${1}" in
   "show")   show   "${2}" ;;
