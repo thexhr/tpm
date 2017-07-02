@@ -4,7 +4,7 @@ Fork form https://github.com/nmeum/tpm.  While I greatly like the original tpm I
 What's different?
 =================
 
-* Support for find and rm
+* Support for find, edit and rm
 * Shows by default all existing entries
 * Replace GPG Version 2 with Version 1
 * Uses colortree to display all entries
