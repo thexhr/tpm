@@ -148,13 +148,17 @@ show_all() {
 }
 
 remove_entry() {
-	local _entry_name="${1}"
+	local _entry_name="${1}" _answer
 
 	[ -z "${_entry_name}" ] && abort "rm needs an argument"
 
 	entry_exists ${_entry_name}
 
-	command ${NUKE} -f "${STORE_DIR}/${_entry_name}.gpg"
+	read -r -p "$0: Really remove ${_entry_name} [y/N]? " _answer
+	case "${_answer}" in
+		[yY]) 	command ${NUKE} -f "${STORE_DIR}/${_entry_name}.gpg" ;;
+		*) 		;;
+	esac
 }
 
 find_entry() {
