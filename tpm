@@ -206,7 +206,7 @@ edit_entry() {
 
 [ -d "${STORE_DIR}" ] || abort "Password directory does not exist."
 
-if [ ! -z "$(which colotree)" ]; then
+if [ ! -z "$(which colortree)" ]; then
 	TREE=colortree
 elif [ ! -z "$(which tree)" ]; then
 	TREE=tree
