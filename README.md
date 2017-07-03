@@ -6,8 +6,9 @@ What's different?
 
 * Support for find, edit and rm
 * Shows by default all existing entries
-* Replace GPG Version 2 with Version 1
-* Uses colortree to display all entries
+* Complete rewrite of the man page in mdoc(7)
+* Use GPG Version 1 instead of Version 2
+* Uses colortree/tree to display all entries
 * Completion for OpenBSD's ksh
 
 Contact
