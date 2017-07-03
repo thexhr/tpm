@@ -30,7 +30,8 @@ The
 utility is a simple password manager for the command line.  It uses
 .Xr gpg 1
 to de- and encrypt passwords and stores the password in a tree-like
-hierachy.
+hierarchy.  It is modelled and somewhat compatible with
+.Xr pass 1 .
 .Pp
 The options are as follows: 
 .Bl -tag -width Ds 
@@ -50,7 +51,7 @@ Searches for all passwords named
 and displays them.  This will display password entries as well
 as directories with the same name.
 .It Cm insert Ar entry 
-Asks the user for a password and creates a new encryoted
+Asks the user for a password and creates a new encrypted
 entry named
 .Ar entry .
 .It Cm rm Ar entry
@@ -66,7 +67,7 @@ Display usage instructions.
 .Pp
 If no option is given
 .Nm
-displays the existing password hierachy.
+displays the existing password hierarchy.
 .Sh ENVIRONMENT
 .Nm
 can use the following environment variables:
@@ -107,7 +108,7 @@ like
 .El
 .Sh EXIT STATUS 
 .Nm
-normally exists with 0 or with 1 if an error occured.
+normally exists with 0 or with 1 if an error occurred.
 .Sh EXAMPLES
 The following examples shows the basic usage of
 .Nm .
