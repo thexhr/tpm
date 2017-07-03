@@ -125,13 +125,13 @@ insert() {
     abort "You didn't specify a password."
   fi
 
-  mkdir -p "${_entry_path%/*}" || exit 1
+  command mkdir -p "${_entry_path%/*}" || exit 1
   printf '%s\n' "${password}" | mygpg --encrypt \
     --output "${_entry_path}"
 }
 
 show_all() {
-	$TREE -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
+	${TREE} -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
 }
 
 remove_entry() {
@@ -148,7 +148,7 @@ find_entry() {
 	local _entry_name="${1}"
 
 	[ -z "${_entry_name}" ] && abort "find needs an argument"
-	$TREE -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
+	${TREE} -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
 		--matchdirs --ignore-case | sed 's/\.gpg//'
 	echo
 }
