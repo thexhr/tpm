@@ -1,0 +1,151 @@
+.\"
+.\" Copyright (c) 2017 Matthias Schmidt
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\"
+.Dd July 5, 2017
+.Dt tpm 1
+.Os 
+.Sh NAME 
+.Nm tpm
+.Nd Simple command line password manager
+.Sh SYNOPSIS 
+.Nm tpm
+.Op Cm edit | find | insert | rm | show Ar entry
+.Op Cm help
+.Sh DESCRIPTION 
+The
+.Nm
+utility is a simple password manager for the command line.  It uses
+.Xr gpg 1
+to de- and encrypt passwords and stores the password in a tree-like
+hierachy.
+.Pp
+The options are as follows: 
+.Bl -tag -width Ds 
+.It Cm edit Ar entry 
+Allows the user to edit an existing password entry.  The password
+named
+.Ar entry
+is opened in a text editor.  If
+.Ev EDITOR
+is set this will be used, otherwise
+.Nm
+tries to use
+.Xr vi 1 .
+.It Cm find Ar entry 
+Searches for all passwords named
+.Ar entry
+and displays them.  This will display password entries as well
+as directories with the same name.
+.It Cm insert Ar entry 
+Asks the user for a password and creates a new encryoted
+entry named
+.Ar entry .
+.It Cm rm Ar entry
+Removes the password called
+.Ar entry .
+If the password does not exist an error will be shown.
+.It Cm show Ar entry 
+Shows the password called
+.Ar entry .
+.It Cm help
+Display usage instructions.
+.El
+.Pp
+If no option is given
+.Nm
+displays the existing password hierachy.
+.Sh ENVIRONMENT
+.Nm
+can use the following environment variables:
+.Pp
+.Bl -tag -width "PASSWORD_STORE_KEY"
+.It Ev EDITOR
+.Nm
+will use the editor specified in
+.Ev EDITOR
+if the
+.Cm edit
+option is used.  Otherwise,
+.Xr vi 1
+will be used.
+.Pp
+.It Ev PASSWORD_STORE_KEY
+.Nm
+can read the
+.Xr gpg 1
+identity used for encryption and decryption from this
+variable.  See
+.Sx FILES ,
+below.
+.El
+.Sh FILES 
+.Bl -tag -width Ds -compact
+.It Pa ~/.password-store
+All passwords will be encrypted using
+.Xr gpg 1
+and stored under this directory.
+.Pp
+.It Pa ~/.password-store/.gpg-id
+Contains one line with the
+.Xr gpg 1
+key used to en- and decrypt the password.  This could be something
+like
+.Aq user@example.com .
+.El
+.Sh EXIT STATUS 
+.Nm
+normally exists with 0 or with 1 if an error occured.
+.Sh EXAMPLES
+The following examples shows the basic usage of
+.Nm .
+To list all existing passwords in a tree just call
+.Nm
+without any arguments:
+.Bd -literal -offset indent
+$ tpm
+/home/matthias/.password-store
+├── email
+│   ├── gmail
+│   ├── gmx
+│   ├── home
+[...]
+.Ed
+.Pp
+If you want to save the password for one of your servers you
+can create a new entry called
+.Ar server
+under the parent-directory called
+.Ar logins
+call
+.Nm
+as follows:
+.Bd -literal -offset indent
+$ tpm insert logins/server
+Password for 'logins/server':
+.Ed
+.Pp
+Enter the password - that will not be displayed - and it will be saved
+encrypted in your password store directory.
+.Sh SEE ALSO 
+.Xr gpg 1 ,
+.Xr tree 1 ,
+.Xr colortree 1
+.Sh AUTHORS
+.Nm
+was originally written by
+.An Sören Tempel Aq Mt soeren+git@soeren-tempel.net .
+This version was enhanced and mostly rewritten by
+.An Matthias Schmidt Aq Mt matthias@dragonflybsd.org .
