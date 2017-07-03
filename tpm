@@ -128,7 +128,7 @@ find_entry() {
 
 	[ -z "${_entry_name}" ] && abort "find needs an argument"
 	$TREE -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
-		--matchdirs --ignore-case
+		--matchdirs --ignore-case | sed 's/\.gpg//'
 	echo
 }
 
