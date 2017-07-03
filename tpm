@@ -23,6 +23,7 @@ umask 077
 
 GPG_OPTS="--quiet --yes"
 STORE_DIR="${HOME}/.password-store"
+TPMDIR="/tmp"
 
 if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
   read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
@@ -61,6 +62,13 @@ entry_exists() {
 
 	if [ ! -f "${_entry_path}" ]; then
 		abort "The requested entry doesn't exist."
+	fi
+}
+
+choose_tmp() {
+	# Create the temp file on a shared memory fs if available
+	if [ -d "/dev/shm" -a -k "/dev/shm" ]; then
+		TMPDIR="/dev/shm"
 	fi
 }
 
@@ -138,7 +146,8 @@ edit_entry() {
 
 	entry_exists ${_entry_name}
 
-	_tmpfile=$(mktemp /tmp/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
+	choose_tmp
+	_tmpfile=$(mktemp ${TMPDIR}/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
 	trap "rm -f ${_tmpfile}; exit" 0 1 2 3 15
 
 	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
@@ -150,6 +159,9 @@ edit_entry() {
 	fi
 
 	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile}
+
+	# If the file is there, remove it
+	[ -e "${_tmpfile}"  ] && rm -f "${_tmpfile}"
 }
 
 ##
