@@ -54,11 +54,16 @@ abort() {
 }
 
 mygpg() {
-  if [ -n "${PASSWORD_STORE_KEY}" ]; then
-    gpg $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
-  else
-    gpg $GPG_OPTS --default-recipient-self "$@"
-  fi
+
+	if [ -z "$(which gpg)" ]; then
+		abort "gpg not found.  Please install."
+	fi
+
+	if [ -n "${PASSWORD_STORE_KEY}" ]; then
+		gpg $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
+	else
+		gpg $GPG_OPTS --default-recipient-self "$@"
+	fi
 }
 
 readpw() {
