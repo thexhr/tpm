@@ -38,7 +38,6 @@ abort() {
 }
 
 mygpg() {
-
   if [ -n "${PASSWORD_STORE_KEY}" ]; then
     gpg $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
   else
@@ -60,7 +59,7 @@ entry_exists() {
 	local _entry_name="${1}"
 	local _entry_path="${STORE_DIR}/${_entry_name}.gpg"
 
-	if [ ! -e "${_entry_path}" ]; then
+	if [ ! -f "${_entry_path}" ]; then
 		abort "The requested entry doesn't exist."
 	fi
 }
@@ -90,7 +89,7 @@ insert() {
     abort "insert needs an argument"
   fi
 
-  if [ -e "${_entry_path}" ]; then
+  if [ -f "${_entry_path}" ]; then
     abort "This entry already exists"
   fi
 
