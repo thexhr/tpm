@@ -24,6 +24,7 @@ umask 077
 GPG_OPTS="--quiet --yes"
 STORE_DIR="${HOME}/.password-store"
 TPMDIR="/tmp"
+NUKE="rm"
 
 if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
   read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
@@ -86,6 +87,18 @@ choose_tmp() {
 	fi
 }
 
+nuke_file() {
+	OSV=$(uname -s)
+
+	if [ -n ${OSV} ]; then
+		if [ "${OSV}" = "Linux" ]; then
+			NUKE="shred -u"
+		elif [ "${OSV}" = "OpenBSD" -o "${OSV}" = "FreeBSD" -o "${OSV}" = "DragonFly" -o "${OSV}" = "NetBSD" ]; then
+			NUKE="rm -P"
+		fi
+	fi
+}
+
 ##
 # Commands
 ##
@@ -141,7 +154,7 @@ remove_entry() {
 
 	entry_exists ${_entry_name}
 
-	command rm -i "${STORE_DIR}/${_entry_name}.gpg"
+	command ${NUKE} -f "${STORE_DIR}/${_entry_name}.gpg"
 }
 
 find_entry() {
@@ -162,7 +175,7 @@ edit_entry() {
 
 	choose_tmp
 	_tmpfile=$(mktemp ${TMPDIR}/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
-	trap "rm -f ${_tmpfile}; exit 0" 0 1 2 3 15
+	trap "${NUKE} -f ${_tmpfile}; exit 0" 0 1 2 3 15
 
 	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
 
@@ -175,7 +188,7 @@ edit_entry() {
 	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile}
 
 	# If the file is there, remove it
-	[ -e "${_tmpfile}"  ] && rm -f "${_tmpfile}"
+	[ -e "${_tmpfile}"  ] && ${NUKE} -f "${_tmpfile}"
 }
 
 ##
