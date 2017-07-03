@@ -33,6 +33,20 @@ fi
 # Helper
 ##
 
+usage() {
+	echo "Usage: $(basename $0) [option] [argument]"
+	echo
+	echo "Option can be one of the following"
+	echo
+	echo "	show <entry>		Shows password <entry>"
+	echo "	instert <entry>		Inserts new <entry>"
+	echo "	find <entry>		Searches for <entry>"
+	echo "	rm <entry>			Removes <entry>"
+	echo
+	echo "If you do not specify an option, all entries will be shown"
+	exit 0
+}
+
 abort() {
   echo "${0}: ${1}" 1>&2
   exit 1
@@ -178,7 +192,6 @@ else
 	abort "tpm needs tree or colortree to run. Please install"
 fi
 
-
 if [ $# -eq 0 ]; then
 	show_all
 	exit 0
@@ -192,6 +205,7 @@ case "${1}" in
   "find")	find_entry "${2}" ;;
   "rm")		remove_entry "${2}" ;;
   "edit")	edit_entry "${2}" ;;
+  "help")	usage ;;
   *)   		show   "${1}" ;;
 esac
 
