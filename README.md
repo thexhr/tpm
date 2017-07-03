@@ -11,6 +11,11 @@ What's different?
 * Uses colortree/tree to display all entries
 * Completion for OpenBSD's ksh
 
+Installation
+============
+
+Clone the repo and execute make install as root.  Have a look at the EXAMPLES section in the man page for further details.
+
 Contact
 =======
 
