@@ -116,7 +116,7 @@ show_all() {
 remove_entry() {
 	local _entry_name="${1}"
 
-	[[ -z ${_entry_name} ]] && abort "rm needs an argument"
+	[ -z "${_entry_name}" ] && abort "rm needs an argument"
 
 	entry_exists ${_entry_name}
 
@@ -126,7 +126,7 @@ remove_entry() {
 find_entry() {
 	local _entry_name="${1}"
 
-	[[ -z ${_entry_name} ]] && abort "find needs an argument"
+	[ -z "${_entry_name}" ] && abort "find needs an argument"
 	colortree -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
 		--matchdirs --ignore-case
 	echo
@@ -135,7 +135,7 @@ find_entry() {
 edit_entry() {
 	local _entry_name="${1}" _tmpfile
 
-	[[ -z ${_entry_name} ]] && abort "edit needs an argument"
+	[ -z "${_entry_name}" ] && abort "edit needs an argument"
 
 	entry_exists ${_entry_name}
 
@@ -144,7 +144,7 @@ edit_entry() {
 
 	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
 
-	if [[ -n ${EDITOR} ]]; then
+	if [ -n "${EDITOR}" ]; then
 		${EDITOR} ${_tmpfile} || exit 1
 	else
 		vi ${_tmpfile} || exit 1
@@ -157,7 +157,7 @@ edit_entry() {
 # Parse input
 ##
 
-[[ -d "${STORE_DIR}" ]] || abort "Password directory does not exist."
+[ -d "${STORE_DIR}" ] || abort "Password directory does not exist."
 
 if [ $# -eq 0 ]; then
 	show_all
