@@ -49,8 +49,8 @@ usage() {
 }
 
 abort() {
-  echo "${0}: ${1}" 1>&2
-  exit 1
+	echo "$(basename ${0}): ${1}" 1>&2
+	exit 1
 }
 
 mygpg() {
