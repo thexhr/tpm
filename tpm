@@ -162,7 +162,7 @@ edit_entry() {
 
 	choose_tmp
 	_tmpfile=$(mktemp ${TMPDIR}/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
-	trap "rm -f ${_tmpfile}; exit" 0 1 2 3 15
+	trap "rm -f ${_tmpfile}; exit 0" 0 1 2 3 15
 
 	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
 
@@ -209,4 +209,4 @@ case "${1}" in
   *)   		show   "${1}" ;;
 esac
 
-exit $?
+exit 0
