@@ -110,7 +110,7 @@ insert() {
 }
 
 show_all() {
-	colortree -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
+	$TREE -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
 }
 
 remove_entry() {
@@ -127,7 +127,7 @@ find_entry() {
 	local _entry_name="${1}"
 
 	[ -z "${_entry_name}" ] && abort "find needs an argument"
-	colortree -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
+	$TREE -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
 		--matchdirs --ignore-case
 	echo
 }
@@ -158,6 +158,15 @@ edit_entry() {
 ##
 
 [ -d "${STORE_DIR}" ] || abort "Password directory does not exist."
+
+if [ ! -z "$(which colotree)" ]; then
+	TREE=colortree
+elif [ ! -z "$(which tree)" ]; then
+	TREE=tree
+else
+	abort "tpm needs tree or colortree to run. Please install"
+fi
+
 
 if [ $# -eq 0 ]; then
 	show_all
