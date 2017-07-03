@@ -7,8 +7,5 @@ if [ -d ~/.password-store ]; then
 		find . -type f -name \*.gpg | sed 's/^\.\///' | sed 's/\.gpg$//g'
 	)
 
-	set -A complete_tpm -- $PASS_LIST -c generate edit insert git
-	set -A complete_tpm_2 -- $PASS_LIST push
-
+	set -A complete_tpm -- $PASS_LIST edit insert rm show
 fi
-
