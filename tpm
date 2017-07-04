@@ -22,6 +22,7 @@ umask 077
 ##
 
 GPG_OPTS="--quiet --yes"
+GPGB="gpg"
 STORE_DIR="${HOME}/.password-store"
 TPMDIR="/tmp"
 NUKE="rm"
@@ -56,13 +57,17 @@ abort() {
 mygpg() {
 
 	if [ -z "$(which gpg)" ]; then
-		abort "gpg not found.  Please install."
+		if [ -z "$(which gpg2)" ]; then
+			abort "gpg or gpg2 not found.  Please install."
+		else
+			GPGB="gpg2"
+		fi
 	fi
 
 	if [ -n "${PASSWORD_STORE_KEY}" ]; then
-		gpg $GPG_OPTS --recipient "${PASSWORD_STORE_KEY}" "$@"
+		${GPGB} ${GPG_OPTS} --recipient "${PASSWORD_STORE_KEY}" "$@"
 	else
-		gpg $GPG_OPTS --default-recipient-self "$@"
+		${GPGB} ${GPG_OPTS} --default-recipient-self "$@"
 	fi
 }
 
