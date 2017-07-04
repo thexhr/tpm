@@ -56,8 +56,8 @@ abort() {
 
 mygpg() {
 
-	if [ -z "$(which gpg)" ]; then
-		if [ -z "$(which gpg2)" ]; then
+	if [ -z "$(which gpg 2> /dev/null)" ]; then
+		if [ -z "$(which gpg2 2> /dev/null)" ]; then
 			abort "gpg or gpg2 not found.  Please install."
 		else
 			GPGB="gpg2"
