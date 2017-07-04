@@ -24,7 +24,7 @@ umask 077
 ##
 
 GPG_OPTS="--quiet --yes"
-GPGB="gpg"
+GPGB="gpg2"
 TMPDIR="/tmp"
 NUKE="rm"
 PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
@@ -66,11 +66,11 @@ abort() {
 
 mygpg() {
 
-	if [ -z "$(which gpg 2> /dev/null)" ]; then
-		if [ -z "$(which gpg2 2> /dev/null)" ]; then
+	if [ -z "$(which gpg2 2> /dev/null)" ]; then
+		if [ -z "$(which gpg 2> /dev/null)" ]; then
 			abort "gpg or gpg2 not found.  Please install."
 		else
-			GPGB="gpg2"
+			GPGB="gpg"
 		fi
 	fi
 
