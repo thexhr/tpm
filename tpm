@@ -18,22 +18,27 @@
 umask 077
 
 ##
-# Variables
+# Variables r/w
 ##
 
 GPG_OPTS="--quiet --yes"
 GPGB="gpg"
-STORE_DIR="${HOME}/.password-store"
 TPMDIR="/tmp"
 NUKE="rm"
 
-if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
-  read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
-fi
+##
+# Variables r/o
+##
+
+readonly STORE_DIR="${HOME}/.password-store"
 
 ##
 # Helper
 ##
+
+if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
+  read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
+fi
 
 usage() {
 	echo "Usage: $(basename $0) [option] [argument]"
