@@ -31,7 +31,7 @@ NUKE="rm"
 ##
 
 readonly STORE_DIR="${HOME}/.password-store"
-
+readonly PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 ##
 # Helper
 ##
@@ -74,6 +74,8 @@ mygpg() {
 	else
 		${GPGB} ${GPG_OPTS} --default-recipient-self "$@"
 	fi
+
+	return $?
 }
 
 readpw() {
@@ -196,7 +198,8 @@ edit_entry() {
 	_tmpfile=$(mktemp ${TMPDIR}/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
 	trap "${NUKE} -f ${_tmpfile}; exit 0" 0 1 2 3 15
 
-	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg"
+	mygpg --output ${_tmpfile} --decrypt "${STORE_DIR}/${_entry_name}.gpg" || \
+		abort "Cannot edit file"
 
 	if [ -n "${EDITOR}" ]; then
 		${EDITOR} ${_tmpfile} || abort "Cannot open file using \$EDITOR"
@@ -204,7 +207,8 @@ edit_entry() {
 		vi ${_tmpfile} || abort "Neither vi or an editor in \$EDITOR was found"
 	fi
 
-	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile}
+	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile} || \
+		abort "Cannot reencrypt temporary file"
 
 	# If the file is there, remove it
 	[ -e "${_tmpfile}"  ] && ${NUKE} -f "${_tmpfile}"
