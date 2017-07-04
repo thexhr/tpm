@@ -140,6 +140,16 @@ Password for 'logins/server':
 .Pp
 Enter the password - that will not be displayed - and it will be saved
 encrypted in your password store directory.
+.Pp
+If you have multiple
+.Xr gpg 1
+keys you can set which key should be used by
+.Nm
+for all cryptographic operations. Also see Section
+.Sx FILES .
+.Bd -literal -offset indent
+$ echo "user@example.com" > ~/.password-store/.gpg-id
+.Ed
 .Sh SEE ALSO 
 .Xr gpg 1 ,
 .Xr tree 1 ,
