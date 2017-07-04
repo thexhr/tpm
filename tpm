@@ -28,6 +28,7 @@ GPGB="gpg"
 TMPDIR="/tmp"
 NUKE="rm"
 PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
+EDITOR=${EDITOR:-""}
 
 ##
 # Variables r/o
@@ -35,6 +36,7 @@ PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
 
 readonly STORE_DIR="${HOME}/.password-store"
 readonly PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
 ##
 # Helper
 ##
