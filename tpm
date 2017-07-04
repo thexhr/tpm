@@ -25,7 +25,7 @@ umask 077
 
 GPG_OPTS="--quiet --yes"
 GPGB="gpg"
-TPMDIR="/tmp"
+TMPDIR="/tmp"
 NUKE="rm"
 PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
 
