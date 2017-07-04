@@ -16,15 +16,15 @@
 .\"
 .Dd July 5, 2017
 .Dt tpm 1
-.Os 
-.Sh NAME 
+.Os
+.Sh NAME
 .Nm tpm
 .Nd Simple command line password manager
-.Sh SYNOPSIS 
+.Sh SYNOPSIS
 .Nm tpm
 .Op Cm edit | find | insert | rm | show Ar entry
 .Op Cm help
-.Sh DESCRIPTION 
+.Sh DESCRIPTION
 The
 .Nm
 utility is a simple password manager for the command line.  It uses
@@ -33,9 +33,9 @@ to de- and encrypt passwords and stores the password in a tree-like
 hierarchy.  It is modelled and somewhat compatible with
 .Xr pass 1 .
 .Pp
-The options are as follows: 
-.Bl -tag -width Ds 
-.It Cm edit Ar entry 
+The options are as follows:
+.Bl -tag -width Ds
+.It Cm edit Ar entry
 Allows the user to edit an existing password entry.  The password
 named
 .Ar entry
@@ -45,12 +45,12 @@ is set this will be used, otherwise
 .Nm
 tries to use
 .Xr vi 1 .
-.It Cm find Ar entry 
+.It Cm find Ar entry
 Searches for all passwords named
 .Ar entry
 and displays them.  This will display password entries as well
 as directories with the same name.
-.It Cm insert Ar entry 
+.It Cm insert Ar entry
 Asks the user for a password and creates a new encrypted
 entry named
 .Ar entry .
@@ -58,7 +58,7 @@ entry named
 Removes the password called
 .Ar entry .
 If the password does not exist an error will be shown.
-.It Cm show Ar entry 
+.It Cm show Ar entry
 Shows the password called
 .Ar entry .
 .It Cm help
@@ -92,7 +92,7 @@ variable.  See
 .Sx FILES ,
 below.
 .El
-.Sh FILES 
+.Sh FILES
 .Bl -tag -width Ds -compact
 .It Pa ~/.password-store
 All passwords will be encrypted using
@@ -106,7 +106,7 @@ key used to en- and decrypt the password.  This could be something
 like
 .Aq user@example.com .
 .El
-.Sh EXIT STATUS 
+.Sh EXIT STATUS
 .Nm
 normally exists with 0 or with 1 if an error occurred.
 .Sh EXAMPLES
@@ -150,7 +150,7 @@ for all cryptographic operations. Also see Section
 .Bd -literal -offset indent
 $ echo "user@example.com" > ~/.password-store/.gpg-id
 .Ed
-.Sh SEE ALSO 
+.Sh SEE ALSO
 .Xr gpg 1 ,
 .Xr tree 1 ,
 .Xr colortree 1
