@@ -25,7 +25,4 @@ uninstall:
 	$(RM) "$(DESTDIR)$(BINDIR)/tpm" \
 		"$(DESTDIR)$(MANDIR)/man1/tpm.1"
 
-clean:
-	$(RM) tpm.1
-
-.PHONY: install uninstall clean
+.PHONY: install uninstall
