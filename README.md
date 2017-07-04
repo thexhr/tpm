@@ -1,7 +1,7 @@
 
 # Trivial Password Manager
 
-Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager instead of Tiny.  While I greatly like the original tpm I am used to some of pass' comfort and thus I implemented it.
+Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager.
 
 ## What's different?
 
@@ -15,6 +15,12 @@ Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager i
 ## Installation
 
 Clone the repo and execute `make install` as root.  Have a look at the EXAMPLES section in the man page for further details.
+
+## FAQ
+
+**What's wrong with the [orginal version](https://github.com/nmeum/tpm) of tpm?** Nothing.   I just like some more comfort and a real mdoc(7) compatible manpage, thus, I decided to add all the features mentioned above.
+
+**What's wrong with the [original pass](https://www.passwordstore.org/)?**  Nothing, I used it for quite some time.  However, it gets bloated over time and is way to complex for its simple use case.  And it requires me to install a number of other dependencies I would not install otherwise.
 
 ## Contact
 
