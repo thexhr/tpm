@@ -1,4 +1,5 @@
 # Copyright (C) 2013-2016 Sören Tempel
+# Copyright (C) 2017 Matthias Schmidt
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
