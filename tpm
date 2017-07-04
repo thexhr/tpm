@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+set -eu
+
 umask 077
 
 ##
@@ -25,6 +27,7 @@ GPG_OPTS="--quiet --yes"
 GPGB="gpg"
 TPMDIR="/tmp"
 NUKE="rm"
+PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
 
 ##
 # Variables r/o
@@ -130,7 +133,7 @@ show() {
 
   entry_exists ${_entry_name}
 
-  mygpg --decrypt "${_entry_path}"
+  mygpg --decrypt "${_entry_path}" || abort "Cannot open entry"
 }
 
 insert() {
@@ -218,7 +221,9 @@ edit_entry() {
 # Parse input
 ##
 
+set +u
 [ "${1}" != "insert" -a ! -d "${STORE_DIR}" ] && abort "Password directory does not exist."
+set -u
 
 if [ ! -z "$(which colortree)" ]; then
 	TREE=colortree
