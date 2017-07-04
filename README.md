@@ -8,7 +8,7 @@ Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager.
 * Support for find, edit and rm
 * Shows by default all existing entries
 * Complete rewrite of the man page in mdoc(7)
-* Use GPG Version 1 instead of Version 2
+* Can use GPG Version 1 or Version 2
 * Uses colortree/tree to display all entries
 * Completion for OpenBSD's ksh
 
