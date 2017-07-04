@@ -176,7 +176,8 @@ remove_entry() {
 
 	entry_exists ${_entry_name}
 
-	read -r -p "$0: Really remove ${_entry_name} [y/N]? " _answer
+	echo -n "$0: Really remove ${_entry_name} [y/N]? "
+	read -r _answer
 	case "${_answer}" in
 		[yY]) 	command ${NUKE} -f "${STORE_DIR}/${_entry_name}.gpg" ;;
 		*) 		;;
