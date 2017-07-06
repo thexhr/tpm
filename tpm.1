@@ -14,8 +14,8 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd July 5, 2017
-.Dt tpm 1
+.Dd July 6, 2017
+.Dt TPM 1
 .Os
 .Sh NAME
 .Nm tpm
@@ -27,19 +27,22 @@
 .Sh DESCRIPTION
 The
 .Nm
-utility is a simple password manager for the command line.  It uses
+utility is a simple password manager for the command line.
+It uses
 .Xr gpg 1
 to de- and encrypt passwords and stores the password in a tree-like
-hierarchy.  It is modelled and somewhat compatible with
+hierarchy.
+It is modelled and somewhat compatible with
 .Xr pass 1 .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
 .It Cm edit Ar entry
-Allows the user to edit an existing password entry.  The password
-named
+Allows the user to edit an existing password entry.
+The password named
 .Ar entry
-is opened in a text editor.  If
+is opened in a text editor.
+If
 .Ev EDITOR
 is set this will be used, otherwise
 .Nm
@@ -48,7 +51,8 @@ tries to use
 .It Cm find Ar entry
 Searches for all passwords named
 .Ar entry
-and displays them.  This will display password entries as well
+and displays them.
+This will display password entries as well
 as directories with the same name.
 .It Cm insert Ar entry
 Asks the user for a password and creates a new encrypted
@@ -71,7 +75,6 @@ displays the existing password hierarchy.
 .Sh ENVIRONMENT
 .Nm
 can use the following environment variables:
-.Pp
 .Bl -tag -width "PASSWORD_STORE_KEY"
 .It Ev EDITOR
 .Nm
@@ -79,16 +82,17 @@ will use the editor specified in
 .Ev EDITOR
 if the
 .Cm edit
-option is used.  Otherwise,
+option is used.
+Otherwise,
 .Xr vi 1
 will be used.
-.Pp
 .It Ev PASSWORD_STORE_KEY
 .Nm
 can read the
 .Xr gpg 1
 identity used for encryption and decryption from this
-variable.  See
+variable.
+See
 .Sx FILES ,
 below.
 .El
@@ -102,7 +106,8 @@ and stored under this directory.
 .It Pa ~/.password-store/.gpg-id
 Contains one line with the
 .Xr gpg 1
-key used to en- and decrypt the password.  This could be something
+key used to en- and decrypt the password.
+This could be something
 like
 .Aq user@example.com .
 .El
@@ -145,18 +150,20 @@ If you have multiple
 .Xr gpg 1
 keys you can set which key should be used by
 .Nm
-for all cryptographic operations. Also see Section
+for all cryptographic operations.
+Also see Section
 .Sx FILES .
 .Bd -literal -offset indent
 $ echo "user@example.com" > ~/.password-store/.gpg-id
 .Ed
 .Sh SEE ALSO
+.Xr colortree 1 ,
 .Xr gpg 1 ,
-.Xr tree 1 ,
-.Xr colortree 1
+.Xr tree 1
 .Sh AUTHORS
 .Nm
 was originally written by
 .An Sören Tempel Aq Mt soeren+git@soeren-tempel.net .
+.Pp
 This version was enhanced and mostly rewritten by
 .An Matthias Schmidt Aq Mt matthias@dragonflybsd.org .
