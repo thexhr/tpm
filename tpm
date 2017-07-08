@@ -228,9 +228,9 @@ set +u
 [ "${1}" != "insert" -a ! -d "${STORE_DIR}" ] && abort "Password directory does not exist."
 set -u
 
-if [ ! -z "$(which colortree)" ]; then
+if [ ! -z "$(which colortree 2> /dev/null)" ]; then
 	TREE=colortree
-elif [ ! -z "$(which tree)" ]; then
+elif [ ! -z "$(which tree 2> /dev/null)" ]; then
 	TREE=tree
 else
 	abort "tpm needs tree or colortree to run. Please install"
