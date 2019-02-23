@@ -1,5 +1,5 @@
 
-# Trivial Password Manager
+# Ttrivial Password Manager
 
 Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager.
 
