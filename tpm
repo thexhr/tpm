@@ -90,7 +90,9 @@ readpw() {
   fi
 
   IFS= read -r "${2}"
-  [ -t 0 ] && stty echo
+  if [ -t 0 ]; then
+    stty echo
+  fi
 }
 
 entry_exists() {
