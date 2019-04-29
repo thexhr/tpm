@@ -1,9 +1,12 @@
 
 # Trivial Password Manager
 
-Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager.
+Fork form https://github.com/thexhr/tpm which is a fork of https://github.com/nmeum/tpm now called the Trivial Password Manager.
 
-## What's different?
+## What's different from thexhr/tpm?
+* Can pipe passwords to `tpm insert` so `pwgen 16 1 | tpm insert myaccount` works.
+
+## What's different from nmeum/tpm?
 
 * Support for find, edit and rm
 * Shows by default all existing entries
@@ -14,6 +17,7 @@ Fork form https://github.com/nmeum/tpm now called the Trivial Password Manager.
 
 ## Installation
 
+Available on AUR as tpm-trivial  
 Clone the repo and execute `make install` as root.  Have a look at the EXAMPLES section in the man page for further details.
 
 ## FAQ
