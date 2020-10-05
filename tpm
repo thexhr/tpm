@@ -177,6 +177,8 @@ remove_entry() {
 
 	entry_exists ${_entry_name}
 
+	nuke_file
+
 	echo -n "$0: Really remove ${_entry_name} [y/N]? "
 	read -r _answer
 	case "${_answer}" in
@@ -200,6 +202,8 @@ edit_entry() {
 	[ -z "${_entry_name}" ] && abort "edit needs an argument"
 
 	entry_exists ${_entry_name}
+
+	nuke_file
 
 	choose_tmp
 	_tmpfile=$(mktemp ${TMPDIR}/tpm.XXXXXXXXXX) || abort "Cannot create temporary file"
