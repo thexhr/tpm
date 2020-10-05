@@ -51,7 +51,7 @@ usage() {
 	echo "Option can be one of the following"
 	echo
 	echo "	show <entry>		Shows password <entry>"
-	echo "	instert <entry>		Inserts new <entry>"
+	echo "	insert <entry>		Inserts new <entry>"
 	echo "	find <entry>		Searches for <entry>"
 	echo "	rm <entry>			Removes <entry>"
 	echo
@@ -214,7 +214,7 @@ edit_entry() {
 	fi
 
 	mygpg --output "${STORE_DIR}/${_entry_name}.gpg" --encrypt ${_tmpfile} || \
-		abort "Cannot reencrypt temporary file"
+		abort "Cannot re-encrypt temporary file"
 
 	# If the file is there, remove it
 	[ -e "${_tmpfile}"  ] && ${NUKE} -f "${_tmpfile}"
