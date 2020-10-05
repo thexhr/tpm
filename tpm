@@ -115,6 +115,10 @@ nuke_file() {
 
 	if [ -n ${OSV} ]; then
 		if [ "${OSV}" = "Linux" ]; then
+			if [[ -z "$(which shred 2> /dev/null)" ]]; then
+				echo "Cannot find shred.  Using rm"
+				return
+			fi
 			NUKE="shred -u"
 		elif [ "${OSV}" = "OpenBSD" -o "${OSV}" = "FreeBSD" -o "${OSV}" = "DragonFly" -o "${OSV}" = "NetBSD" ]; then
 			NUKE="rm -P"
