@@ -29,6 +29,7 @@ TMPDIR="/tmp"
 NUKE="rm"
 PASSWORD_STORE_KEY=${PASSWORD_STORE_KEY:-""}
 EDITOR=${EDITOR:-""}
+TOPTS="-C"
 
 ##
 # Variables r/o
@@ -166,7 +167,7 @@ insert() {
 }
 
 show_all() {
-	${TREE} -l -x --noreport -C "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
+	${TREE} -l -x --noreport $TOPTS "${STORE_DIR}" -P "*.gpg" --prune | sed 's/\.gpg//'
 }
 
 remove_entry() {
@@ -188,7 +189,7 @@ find_entry() {
 	local _entry_name="${1}"
 
 	[ -z "${_entry_name}" ] && abort "find needs an argument"
-	${TREE} -l -x --noreport -C "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
+	${TREE} -l -x --noreport $TOPTS "${STORE_DIR}/" -P "*${_entry_name}*" --prune \
 		--matchdirs --ignore-case | sed 's/\.gpg//'
 	echo
 }
@@ -226,6 +227,9 @@ edit_entry() {
 
 set +u
 [ "${1}" != "insert" -a ! -d "${STORE_DIR}" ] && abort "Password directory does not exist."
+
+# Disable colors for colortree if NO_COLOR is set
+[[ -n $NO_COLOR ]] && TOPTS="-n"
 set -u
 
 if [ ! -z "$(which colortree 2> /dev/null)" ]; then
